@@ -1,4 +1,4 @@
-import { Logger, ServerOptions } from "./_types.ts";
+import { Logger, ServeFrontendOptions, ServerOptions } from "./_types.ts";
 
 /**
  * async generator that will start a server and yield connections as
@@ -35,4 +35,17 @@ export async function* startServer(
       });
     }
   }
+}
+
+export async function serveFrontend(
+  request: Request,
+  ops: ServeFrontendOptions,
+  log?: Logger,
+) {
+  const url = new URL(request.url);
+  let path = ops.frontendPath + url.pathname;
+  if (path.endsWith("/")) path += "index.html";
+  log?.debug("new http request", { url, method: request.method, path });
+  const fileContent = await Deno.readTextFile(path);
+  return new Response(fileContent, { status: 200 });
 }

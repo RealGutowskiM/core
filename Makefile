@@ -1,4 +1,4 @@
-DEV_FLAGS = --watch --allow-env --allow-net
+DEV_FLAGS = --watch --allow-env --allow-net --allow-read
 
 .phony: dev clean
 

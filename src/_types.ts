@@ -16,3 +16,18 @@ export type ServerOptions =
   & { tls: boolean }
   & Deno.ListenOptions
   & Deno.ListenTlsOptions;
+
+/**
+ * minimal interface for writing HTTP request handlers
+ */
+export type HttpRequestHandler = (
+  request: Request,
+  log?: Logger,
+) => Response | Promise<Response>;
+
+/**
+ * options used to customize frontend server function
+ */
+export type ServeFrontendOptions = {
+  frontendPath: string;
+};
