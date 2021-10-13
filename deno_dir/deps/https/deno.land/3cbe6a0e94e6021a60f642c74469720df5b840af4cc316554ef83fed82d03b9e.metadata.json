@@ -1,0 +1,21 @@
+{
+  "headers": {
+    "x-amz-version-id": "4hITKr9CF4K5LuvoSTHel1ROppMzmYSb",
+    "content-length": "2011",
+    "connection": "keep-alive",
+    "content-type": "application/typescript; charset=utf-8",
+    "x-amz-request-id": "3NK7E2A676TYDBNE",
+    "date": "Wed, 13 Oct 2021 16:48:43 GMT",
+    "x-amz-id-2": "wCYpbbyEw+bmvydqEDiWiTXWMVo+KkQKW8DD3o8i6i3kjkd/IJjIOWhEknBvDuhP1oRm6upSGJA=",
+    "access-control-allow-origin": "*",
+    "cache-control": "public, max-age=31536000, immutable",
+    "last-modified": "Tue, 12 Oct 2021 16:31:26 GMT",
+    "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400, h3-28=\":443\"; ma=86400, h3-27=\":443\"; ma=86400",
+    "server": "cloudflare",
+    "cf-ray": "69da0e9e9a1e003c-WAW",
+    "cf-cache-status": "DYNAMIC",
+    "expect-ct": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+    "etag": "\"949e8315e9fff46ffc91e5bcd199ac54\""
+  },
+  "url": "https://deno.land/std@0.111.0/streams/merge.ts"
+}

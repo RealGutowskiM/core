@@ -1,0 +1,21 @@
+{
+  "headers": {
+    "x-amz-request-id": "3NK5G8BC5HP1YJX6",
+    "access-control-allow-origin": "*",
+    "date": "Wed, 13 Oct 2021 16:48:43 GMT",
+    "last-modified": "Tue, 12 Oct 2021 16:31:26 GMT",
+    "expect-ct": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+    "content-length": "4234",
+    "connection": "keep-alive",
+    "cache-control": "public, max-age=31536000, immutable",
+    "x-amz-id-2": "hqjCRvCcsDnY026AuXUB3aVVryolg005yt5AfjdHj501cp7yR4R7Qb2xeUz8hCsYHCfWNqt+unA=",
+    "cf-cache-status": "DYNAMIC",
+    "content-type": "application/typescript; charset=utf-8",
+    "x-amz-version-id": "_hAl0gV4juHr49KqThil_MRgvtLG6V9k",
+    "server": "cloudflare",
+    "cf-ray": "69da0e9e9eaf1642-WAW",
+    "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400, h3-28=\":443\"; ma=86400, h3-27=\":443\"; ma=86400",
+    "etag": "\"e94ba3b08f044abe2c1da73075a2111d\""
+  },
+  "url": "https://deno.land/std@0.111.0/streams/delimiter.ts"
+}

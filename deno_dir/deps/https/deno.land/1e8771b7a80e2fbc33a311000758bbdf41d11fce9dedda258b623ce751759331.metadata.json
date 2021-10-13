@@ -1,0 +1,21 @@
+{
+  "headers": {
+    "cache-control": "public, max-age=31536000, immutable",
+    "content-type": "application/typescript; charset=utf-8",
+    "expect-ct": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+    "cf-cache-status": "DYNAMIC",
+    "last-modified": "Tue, 12 Oct 2021 16:31:24 GMT",
+    "x-amz-id-2": "WGi8lb0tZE7FVllhmmHLbLE+pWTy8zuRAZ8wYqWgPpWKM5vgiet8vwCSFoZCBDTAMOcZsvrTLAw=",
+    "cf-ray": "69da0ea1ebe01673-WAW",
+    "connection": "keep-alive",
+    "server": "cloudflare",
+    "date": "Wed, 13 Oct 2021 16:48:43 GMT",
+    "etag": "\"e5ce4111fb107a7ba5b5f7667b7bda6a\"",
+    "x-amz-version-id": "oEOBZbVIN2yxRMjYa1uTRRCIr.SMb7YE",
+    "content-length": "405",
+    "x-amz-request-id": "3NKDR8PQSBACKSA6",
+    "access-control-allow-origin": "*",
+    "alt-svc": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400, h3-28=\":443\"; ma=86400, h3-27=\":443\"; ma=86400"
+  },
+  "url": "https://deno.land/std@0.111.0/_util/assert.ts"
+}

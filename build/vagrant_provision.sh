@@ -1,4 +1,4 @@
-DENO_VERSION="1.14.3"
+DENO_VERSION="1.15.1"
 
 echo "updating system"
 apt update
