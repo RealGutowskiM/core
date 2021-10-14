@@ -1,4 +1,5 @@
 import { path, streams } from "./deps.ts";
+import { Status, STATUS_TEXT } from "./http_status.ts";
 import { Logger, ServeFrontendOptions, ServerOptions } from "./_types.ts";
 
 /**
@@ -38,14 +39,30 @@ export async function* startServer(
   }
 }
 
+/**
+ * function used to serve static frontend
+ *
+ * will always attempt to stream the file to the user
+ * @param request to consume
+ * @param ops options to customize the behavior
+ * @param log optional logger for insights
+ * @returns a response to the request
+ */
 export async function serveFrontend(
   request: Request,
   ops: ServeFrontendOptions,
   log?: Logger,
 ) {
   const url = new URL(request.url);
+  const headers: HeadersInit = {};
+  const ifModifiedSince = new Date(
+    request.headers.get("if-modified-since") ?? 0,
+  );
   let path = ops.frontendPath + url.pathname;
-  let response = new Response(null, { status: 404 });
+  let response = new Response(null, {
+    status: Status.NotFound,
+    statusText: STATUS_TEXT.get(Status.NotFound),
+  });
   let file: Deno.File | undefined;
   let fstat: Deno.FileInfo | undefined;
   if (path.endsWith("/")) path += "index.html";
@@ -55,24 +72,43 @@ export async function serveFrontend(
       Deno.open(path, READ_ONLY),
       Deno.stat(path),
     ]);
-    if (fstat.isFile) {
+    if (!wasFileModifiedSince(fstat, ifModifiedSince)) {
+      response = new Response(null, {
+        status: Status.NotModified,
+        statusText: STATUS_TEXT.get(Status.NotModified),
+      });
+    } else if (fstat.isFile) {
+      headers["content-type"] = contentType(path);
+      if (fstat.mtime) headers["last-modified"] = fstat.mtime.toUTCString();
       response = new Response(streams.readableStreamFromReader(file), {
-        status: 200,
-        headers: {
-          "content-type": contentType(path),
-        },
+        status: Status.OK,
+        statusText: STATUS_TEXT.get(Status.OK),
+        headers,
       });
       file = undefined;
     }
-  } catch (err) {
+  } catch (error) {
     log?.error("serving frontend file failed", {
-      ename: err.name,
-      emessage: err.message,
+      ename: error.name,
+      emessage: error.message,
     });
   } finally {
     file?.close();
   }
   return response;
+}
+
+/**
+ * check whether file was modified since the date provided
+ * @param fstat file stats
+ * @param ifModifiedSince date to check against
+ * @returns true if file is newer, else false
+ */
+function wasFileModifiedSince(
+  fstat: Deno.FileInfo,
+  ifModifiedSince: Date,
+): boolean {
+  return fstat.mtime ? ifModifiedSince < fstat.mtime : true;
 }
 
 /**

@@ -1,2 +1,7 @@
-# Test if server works
+# test if server works
 GET http://localhost:8080 HTTP/1.1
+
+###
+# check compatibility with if-modified-since header
+GET http://localhost:8080 HTTP/1.1
+If-Modified-Since: Mon, 11 Oct 2021 16:15:48 GMT

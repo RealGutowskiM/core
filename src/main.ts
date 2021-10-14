@@ -27,12 +27,18 @@ async function handleHttp(conn: Deno.Conn, log?: Logger): Promise<void> {
       const url = new URL(request.url);
       if (url.pathname.startsWith("/api/")) { /* TODO */ }
       else {
-        respondWith(serveFrontend(request, sfoptions, log));
+        respondWith(serveFrontend(request, sfoptions, log)).catch((err) =>
+          log?.error("http respond failed", {
+            ename: err.name,
+            emessage: err.message,
+          })
+        );
       }
     }
   } catch (err) {
     log?.error("handling http request failed", {
-      error: { ename: err.name, emessage: err.message },
+      ename: err.name,
+      emessage: err.message,
     });
   }
 }
