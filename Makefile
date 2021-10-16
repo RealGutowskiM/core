@@ -1,6 +1,6 @@
 ENV_VARS = DENO_DIR=./deno_dir
 DEV_FLAGS = --watch --allow-env --allow-net \
-			--allow-read --cached-only
+			--allow-read --unstable --cached-only
 
 .phony: dev clean deps
 

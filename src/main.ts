@@ -1,10 +1,12 @@
 import { Logger, ServeFrontendOptions, ServerOptions } from "./_types.ts";
+import { FRONTEND_PATH, IS_IN_PRODUCTION_MODE } from "./_constants.ts";
 import { ConsoleLogger } from "./logger.ts";
 import { serveFrontend, startServer } from "./server.ts";
+import { findTypescriptSources } from "./typescript_compiler.ts";
 
 const log: Logger = new ConsoleLogger(
   "server",
-  Boolean(Deno.env.get("MODE")),
+  IS_IN_PRODUCTION_MODE,
 );
 const soptions: ServerOptions = {
   tls: false,
@@ -14,8 +16,12 @@ const soptions: ServerOptions = {
   keyFile: "dont have",
 };
 const sfoptions: ServeFrontendOptions = {
-  frontendPath: Deno.cwd() + "/www",
+  frontendPath: FRONTEND_PATH,
 };
+
+for await (const result of findTypescriptSources(sfoptions.frontendPath)) {
+  console.log(result);
+}
 
 for await (const conn of startServer(soptions, log)) {
   handleHttp(conn, log);
