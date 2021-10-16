@@ -63,10 +63,53 @@ export async function serveFrontend(
     status: Status.NotFound,
     statusText: STATUS_TEXT.get(Status.NotFound),
   });
-  let file: Deno.File | undefined;
-  let fstat: Deno.FileInfo | undefined;
   if (path.endsWith("/")) path += "index.html";
   log?.debug("new http request", { url, method: request.method, path });
+  if (
+    path.endsWith(".ts")
+  ) {
+    response = serveDynamically(headers, path, response, ops.dynamicTsFiles);
+  } else {
+    response = await serveStatically(
+      path,
+      ifModifiedSince,
+      response,
+      headers,
+      log,
+    );
+  }
+  return response;
+}
+
+function serveDynamically(
+  headers: Record<string, string>,
+  path: string,
+  response: Response,
+  files?: Map<string, string>,
+) {
+  if (files?.has(`file://${path}.js`)) {
+    headers["content-type"] = contentType(path);
+    response = new Response(
+      files.get(`file://${path}.js`),
+      {
+        status: Status.OK,
+        statusText: STATUS_TEXT.get(Status.OK),
+        headers,
+      },
+    );
+  }
+  return response;
+}
+
+async function serveStatically(
+  path: string,
+  ifModifiedSince: Date,
+  response: Response,
+  headers: Record<string, string>,
+  log: Logger | undefined,
+) {
+  let file: Deno.File | undefined;
+  let fstat: Deno.FileInfo | undefined;
   try {
     [file, fstat] = await Promise.all([
       Deno.open(path, READ_ONLY),
@@ -79,7 +122,9 @@ export async function serveFrontend(
       });
     } else if (fstat.isFile) {
       headers["content-type"] = contentType(path);
-      if (fstat.mtime) headers["last-modified"] = fstat.mtime.toUTCString();
+      if (fstat.mtime) {
+        headers["last-modified"] = fstat.mtime.toUTCString();
+      }
       response = new Response(streams.readableStreamFromReader(file), {
         status: Status.OK,
         statusText: STATUS_TEXT.get(Status.OK),
@@ -134,10 +179,10 @@ const MEDIA_TYPES: Readonly<Record<string, string>> = {
   ".json": "application/json",
   ".map": "application/json",
   ".txt": "text/plain",
-  ".ts": "text/typescript",
-  ".tsx": "text/tsx",
+  ".ts": "application/javascript",
+  ".tsx": "application/javascript",
   ".js": "application/javascript",
-  ".jsx": "text/jsx",
+  ".jsx": "application/javascript",
   ".gz": "application/gzip",
   ".css": "text/css",
   ".wasm": "application/wasm",

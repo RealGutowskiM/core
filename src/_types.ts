@@ -30,4 +30,14 @@ export type HttpRequestHandler = (
  */
 export type ServeFrontendOptions = {
   frontendPath: string;
+  dynamicTsFiles?: Map<string, string>;
+};
+
+/**
+ * a file description for a typescript file to be
+ * served on the frontend
+ */
+export type FrontendTypescriptFile = {
+  filePath: string;
+  text: string;
 };
