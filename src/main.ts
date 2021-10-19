@@ -1,13 +1,7 @@
-import {
-  FrontendTypescriptFile,
-  Logger,
-  ServeFrontendOptions,
-  ServerOptions,
-} from "./_types.ts";
+import { Logger, ServeFrontendOptions, ServerOptions } from "./_types.ts";
 import { FRONTEND_PATH, IS_IN_PRODUCTION_MODE } from "./_constants.ts";
 import { ConsoleLogger } from "./logger.ts";
 import { serveFrontend, startServer } from "./server.ts";
-import { compileDynamicTypescriptFrontend } from "./typescript_compiler.ts";
 
 const log: Logger = new ConsoleLogger(
   "server",
@@ -22,10 +16,7 @@ const soptions: ServerOptions = {
 };
 const sfoptions: ServeFrontendOptions = {
   frontendPath: FRONTEND_PATH,
-  dynamicTsFiles: new Map(),
 };
-
-await compileDynamicTypescriptFrontend(sfoptions, log);
 
 for await (const conn of startServer(soptions, log)) {
   handleHttp(conn, log);
